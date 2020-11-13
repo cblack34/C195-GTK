@@ -10,11 +10,22 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Loads Scenes in a generic way.
+ */
 public class Loader {
+    /**
+     * @param actionEvent Button event that triggered loading the new Scene.
+     * @return The Stage or base window.
+     */
     public Stage getStage(ActionEvent actionEvent){
         return (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
     }
 
+    /**
+     * @param actionEvent Button event that triggered loading the new Scene.
+     * @param fxml The name of the view to load.
+     */
     public void loadScene(ActionEvent actionEvent, String fxml) {
         Stage stage = getStage(actionEvent);
         try {
@@ -25,6 +36,12 @@ public class Loader {
         }
     }
 
+    /**
+     * @param actionEvent Button event that triggered loading the new Scene.
+     * @param fxml The name of the view to load.
+     * @param object the Data object to be passed to the new scense.
+     * @param <T> any Class that extends the interface LoadObject.
+     */
     public <T extends LoadObject> void loadScene(ActionEvent actionEvent, String fxml, Object object){
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(fxml));

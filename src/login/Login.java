@@ -9,6 +9,9 @@ import javafx.scene.control.*;
 
 import resources.Make_Logger;
 
+/**
+ * Controller for login.fxml
+ */
 public class Login {
 
     private Logger log = Make_Logger.getLogger("login_activity.txt");
@@ -35,7 +38,9 @@ public class Login {
     private Button loginBtn;
 
 
-
+    /**
+     * validates username and password. Logs login attempts.
+     */
     public void onActionLogin(){
         String username = loginUserTextField.getText();
         String password = loginPassTextField.getText();
@@ -64,6 +69,9 @@ public class Login {
         }
     }
 
+    /**
+     * Uses Resource Bundle to set i18n for text on the login screen.
+     */
     public void initialize(){
         loginMainLabel.setText(rb.getString("loginMainLabel"));
         loginZoneIDLabel.setText(rb.getString("loginZone") + ": " + Locale.getDefault());

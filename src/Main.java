@@ -6,8 +6,15 @@ import javafx.stage.Stage;
 
 import java.util.Locale;
 
+/**
+ * Starts the application
+ */
 public class Main extends Application {
 
+    /** Starts up the GUI.
+     * @param primaryStage The main stage of the GUI
+     * @throws Exception Generic Exception that may be thrown
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("login/login.fxml"));
@@ -17,6 +24,9 @@ public class Main extends Application {
     }
 
 
+    /**
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
 //        Locale.setDefault(new Locale("fr"));
         launch(args);
