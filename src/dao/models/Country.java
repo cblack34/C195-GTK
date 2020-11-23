@@ -3,14 +3,14 @@ package dao.models;
 import java.util.Calendar;
 
 /**
- * Data Structure to hold information about Countries
+ * Data Structure to hold information about Country
  */
-public class Countries {
+public class Country {
     private int id;
 
     private String country;
     private String createdBy;
-    private String updatedPy;
+    private String updatedBy;
 
     private Calendar created;
     private Calendar updated;
@@ -19,15 +19,15 @@ public class Countries {
      * @param id The id of the Country.
      * @param country The name of the Country.
      * @param createdBy The user that added the Country to the db.
-     * @param updatedPy The user that last updated the Country in the db.
+     * @param updatedBy The user that last updated the Country in the db.
      * @param created The date the Country was added to the db.
      * @param updated The date the Country was last updated in the db.
      */
-    public Countries(int id, String country, String createdBy, String updatedPy, Calendar created, Calendar updated) {
+    public Country(int id, String country, String createdBy, String updatedBy, Calendar created, Calendar updated) {
         this.id = id;
         this.country = country;
         this.createdBy = createdBy;
-        this.updatedPy = updatedPy;
+        this.updatedBy = updatedBy;
         this.created = created;
         this.updated = updated;
     }
@@ -77,15 +77,15 @@ public class Countries {
     /**
      * @return The user that last updated the Country in the db.
      */
-    public String getUpdatedPy() {
-        return updatedPy;
+    public String getUpdatedBy() {
+        return updatedBy;
     }
 
     /**
-     * @param updatedPy The user that last updated the Country in the db.
+     * @param updatedBy The user that last updated the Country in the db.
      */
-    public void setUpdatedPy(String updatedPy) {
-        this.updatedPy = updatedPy;
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     /**

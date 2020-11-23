@@ -18,7 +18,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("login/login.fxml"));
-        primaryStage.setTitle("GTK Login");
+        primaryStage.setTitle("Global Time Keeper");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
     }

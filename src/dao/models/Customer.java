@@ -3,9 +3,9 @@ package dao.models;
 import java.util.Calendar;
 
 /**
- * Data Structure to hold information about Customers.
+ * Data Structure to hold information about CustomerDao.
  */
-public class Customers {
+public class Customer {
     private int id;
     private int divisionID;
 
@@ -20,18 +20,18 @@ public class Customers {
     private Calendar updated;
 
     /** Constructor of the Data Structure
-     * @param id The ID of the Customer
-     * @param divisionID The ID of the division of the Customer.
-     * @param name The name of the Customer.
-     * @param address The address of the Customer.
-     * @param postalCode The Postal Code of the Customer.
-     * @param phone The Phone Number of the Customer.
-     * @param createdBy The user that created the Customer.
-     * @param updatedBy The user that last updated the Customer.
-     * @param created The datetime the Customer was created.
-     * @param updated The datetime the Customer was last updated.
+     * @param id The ID of the CustomerDao
+     * @param divisionID The ID of the division of the CustomerDao.
+     * @param name The name of the CustomerDao.
+     * @param address The address of the CustomerDao.
+     * @param postalCode The Postal Code of the CustomerDao.
+     * @param phone The Phone Number of the CustomerDao.
+     * @param createdBy The user that created the CustomerDao.
+     * @param updatedBy The user that last updated the CustomerDao.
+     * @param created The datetime the CustomerDao was created.
+     * @param updated The datetime the CustomerDao was last updated.
      */
-    public Customers(int id, int divisionID, String name, String address, String postalCode, String phone, String createdBy, String updatedBy, Calendar created, Calendar updated) {
+    public Customer(int id, int divisionID, String name, String address, String postalCode, String phone, String createdBy, String updatedBy, Calendar created, Calendar updated) {
         this.id = id;
         this.divisionID = divisionID;
         this.name = name;
@@ -45,140 +45,140 @@ public class Customers {
     }
 
     /**
-     * @return The ID of the Customer
+     * @return The ID of the CustomerDao
      */
     public int getId() {
         return id;
     }
 
     /**
-     * @param id The ID of the Customer
+     * @param id The ID of the CustomerDao
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * @return The ID of the division of the Customer.
+     * @return The ID of the division of the CustomerDao.
      */
     public int getDivisionID() {
         return divisionID;
     }
 
     /**
-     * @param divisionID The ID of the division of the Customer.
+     * @param divisionID The ID of the division of the CustomerDao.
      */
     public void setDivisionID(int divisionID) {
         this.divisionID = divisionID;
     }
 
     /**
-     * @return The name of the Customer.
+     * @return The name of the CustomerDao.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * @param name The name of the Customer.
+     * @param name The name of the CustomerDao.
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * @return The address of the Customer.
+     * @return The address of the CustomerDao.
      */
     public String getAddress() {
         return address;
     }
 
     /**
-     * @param address The address of the Customer.
+     * @param address The address of the CustomerDao.
      */
     public void setAddress(String address) {
         this.address = address;
     }
 
     /**
-     * @return The Postal Code of the Customer.
+     * @return The Postal Code of the CustomerDao.
      */
     public String getPostalCode() {
         return postalCode;
     }
 
     /**
-     * @param postalCode The Postal Code of the Customer.
+     * @param postalCode The Postal Code of the CustomerDao.
      */
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
     /**
-     * @return The Phone Number of the Customer.
+     * @return The Phone Number of the CustomerDao.
      */
     public String getPhone() {
         return phone;
     }
 
     /**
-     * @param phone The Phone Number of the Customer.
+     * @param phone The Phone Number of the CustomerDao.
      */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
     /**
-     * @return The user that created the Customer.
+     * @return The user that created the CustomerDao.
      */
     public String getCreatedBy() {
         return createdBy;
     }
 
     /**
-     * @param createdBy The user that created the Customer.
+     * @param createdBy The user that created the CustomerDao.
      */
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
     /**
-     * @return The user that last updated the Customer.
+     * @return The user that last updated the CustomerDao.
      */
     public String getUpdatedBy() {
         return updatedBy;
     }
 
     /**
-     * @param updatedBy The user that last updated the Customer.
+     * @param updatedBy The user that last updated the CustomerDao.
      */
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
 
     /**
-     * @return The datetime the Customer was created.
+     * @return The datetime the CustomerDao was created.
      */
     public Calendar getCreated() {
         return created;
     }
 
     /**
-     * @param created The datetime the Customer was created.
+     * @param created The datetime the CustomerDao was created.
      */
     public void setCreated(Calendar created) {
         this.created = created;
     }
 
     /**
-     * @return The datetime the Customer was last updated.
+     * @return The datetime the CustomerDao was last updated.
      */
     public Calendar getUpdated() {
         return updated;
     }
 
     /**
-     * @param updated The datetime the Customer was last updated.
+     * @param updated The datetime the CustomerDao was last updated.
      */
     public void setUpdated(Calendar updated) {
         this.updated = updated;

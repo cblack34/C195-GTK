@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainmenu.Mainmenu">
+   <children>
+      <HBox>
+         <children>
+            <VBox prefHeight="500.0" prefWidth="450.0">
+               <padding>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </padding>
+               <children>
+                  <Label fx:id="custRecLbl" text="Customer Records" />
+                  <TableView fx:id="custTableView" onMouseClicked="#onMouseClickCust" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="custIDCol" maxWidth="120.0" prefWidth="120.0" text="Customer ID" />
+                      <TableColumn fx:id="custNameCol" maxWidth="268.0" minWidth="75.0" prefWidth="268.0" text="Customer Name" />
+                    </columns>
+                     <VBox.margin>
+                        <Insets bottom="5.0" top="5.0" />
+                     </VBox.margin>
+                  </TableView>
+                  <HBox spacing="20.0">
+                     <children>
+                        <Button fx:id="custAddButton" minHeight="35.0" mnemonicParsing="false" onAction="#onActionCustAdd" prefWidth="100.0" text="Add" />
+                        <Button fx:id="custEditButton" layoutX="10.0" layoutY="10.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionCustEdit" prefWidth="100.0" text="Edit" />
+                        <Button fx:id="custDeleteButton" layoutX="10.0" layoutY="10.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionCustDelete" prefWidth="100.0" text="Delete" />
+                     </children>
+                  </HBox>
+               </children></VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

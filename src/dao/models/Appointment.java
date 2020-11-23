@@ -3,9 +3,9 @@ package dao.models;
 import java.util.Calendar;
 
 /**
- * Data Structure to hold information about Appointments
+ * Data Structure to hold information about Appointment
  */
-public class Appointments {
+public class Appointment {
     private int id;
     private int customerID;
     private int userID;
@@ -39,7 +39,7 @@ public class Appointments {
      * @param created The datetime the Appointment was created.
      * @param updated The datetime the Appointment was last updated.
      */
-    public Appointments(int id, int customerID, int userID, int contactID, String title, String description, String location, String type, String createdBy, String updatedBy, Calendar start, Calendar end, Calendar created, Calendar updated) {
+    public Appointment(int id, int customerID, int userID, int contactID, String title, String description, String location, String type, String createdBy, String updatedBy, Calendar start, Calendar end, Calendar created, Calendar updated) {
         this.id = id;
         this.customerID = customerID;
         this.userID = userID;

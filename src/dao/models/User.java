@@ -3,9 +3,9 @@ package dao.models;
 import java.util.Calendar;
 
 /**
- * Data Structure to hold information about Users.
+ * Data Structure to hold information about User.
  */
-public class Users {
+public class User {
     private int id;
 
     private String name;
@@ -26,7 +26,7 @@ public class Users {
      * @param created The datetime the user was created
      * @param updated The datetime the user was last updated.
      */
-    public Users(int id, String name, String password, String createdBy, String updatedBy, Calendar created, Calendar updated) {
+    public User(int id, String name, String password, String createdBy, String updatedBy, Calendar created, Calendar updated) {
         this.id = id;
         this.name = name;
         this.password = password;

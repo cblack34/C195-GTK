@@ -4,9 +4,11 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import resources.Loader;
 import resources.Make_Logger;
 
 /**
@@ -37,11 +39,13 @@ public class Login {
     @FXML
     private Button loginBtn;
 
+    Loader loader = new Loader();
+
 
     /**
      * validates username and password. Logs login attempts.
      */
-    public void onActionLogin(){
+    public void onActionLogin(ActionEvent actionEvent){
         String username = loginUserTextField.getText();
         String password = loginPassTextField.getText();
 
@@ -66,6 +70,8 @@ public class Login {
         if(!loginSuccess){
           Alert alert = new Alert(Alert.AlertType.WARNING, rb.getString("loginError"), ButtonType.OK);
           alert.showAndWait();
+        } else {
+            loader.loadScene(actionEvent, "/mainmenu/mainmenu.fxml");
         }
     }
 

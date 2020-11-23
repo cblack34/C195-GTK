@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane stylesheets="@customer.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customer.CustomerController">
+   <children>
+      <VBox>
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="5.0">
+               <children>
+                  <Label fx:id="custIDLbl" text="Customer ID">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Label>
+                  <TextField fx:id="custIDTxt" disable="true" editable="false" minWidth="200.0" text="Auto Generated" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" spacing="5.0">
+               <children>
+                  <Label fx:id="custNameLbl" text="Name">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Label>
+                  <TextField fx:id="custNameTxt" minWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="15.0" layoutY="60.0" spacing="5.0">
+               <children>
+                  <Label fx:id="custAddressLbl" text="Address">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="custAddressTxt" minWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="15.0" layoutY="195.0" spacing="5.0">
+               <children>
+                  <Label fx:id="custCountryLbl" text="Country">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <ComboBox fx:id="custCountryCombo" onAction="#onActionCustCountryCombo" prefWidth="150.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="145.0" spacing="5.0">
+               <children>
+                  <Label fx:id="custFLDLbl" text="First Level Division">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <ComboBox fx:id="custFLDCombo" prefWidth="150.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="15.0" layoutY="60.0" spacing="5.0">
+               <children>
+                  <Label fx:id="custPostCodeLbl" text="Postal Code">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="custPostCodeTxt" minWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="135.0" spacing="5.0">
+               <children>
+                  <Label fx:id="custPhoneLbl" text="Phone">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="custPhoneTxt" minWidth="200.0" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT">
+               <children>
+                  <Button minHeight="35.0" minWidth="50.0" mnemonicParsing="false" onAction="#onActionSave" text="Save" textAlignment="RIGHT">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin></Button>
+                  <Button alignment="CENTER_RIGHT" cancelButton="true" mnemonicParsing="false" onAction="#onActionCancel" prefHeight="35.0" text="Cancel" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+         </children></VBox>
+   </children>
+</AnchorPane>
