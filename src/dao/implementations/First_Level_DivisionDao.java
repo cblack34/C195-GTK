@@ -128,8 +128,6 @@ public class First_Level_DivisionDao implements Dao {
             statement.setInt(1, countryID);
             ResultSet rs = statement.executeQuery();
 
-            System.out.println(statement.toString());
-
             while (rs.next()) {
                 first_level_divisions.add(createFLDFromResultSet(rs));
             }

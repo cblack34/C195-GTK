@@ -41,7 +41,6 @@ public class CustomerController implements LoadObject {
 
     @Override
     public void loadObject(Object obj) {
-        System.out.println("Loading");
         Customer customer = (Customer) obj;
 
         First_Level_DivisionDao fldDao = new First_Level_DivisionDao();
@@ -73,7 +72,6 @@ public class CustomerController implements LoadObject {
         custAddressTxt.setText(customer.getAddress());
         custPostCodeTxt.setText(customer.getPostalCode());
         custPhoneTxt.setText(customer.getPhone());
-        System.out.println("Loaded");
     }
 
     public void onActionCancel(ActionEvent actionEvent) {
@@ -199,7 +197,6 @@ public class CustomerController implements LoadObject {
     }
 
     public void initialize(){
-        System.out.println("Initializing");
         CountryDao countryDao = new CountryDao();
 
         // Cell Factory WIth Lambda
@@ -215,6 +212,5 @@ public class CustomerController implements LoadObject {
         custCountryCombo.setCellFactory(countryFactory);
         custCountryCombo.setButtonCell(countryFactory.call(null));
         custFLDCombo.setPromptText("You Must Choose a Country");
-        System.out.println("Initialized");
     }
 }

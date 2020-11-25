@@ -140,7 +140,6 @@ public class CustomerDao implements Dao {
                 throwables.printStackTrace();
             }
         }
-        System.out.println("Save");
     }
 
     @Override
@@ -176,7 +175,6 @@ public class CustomerDao implements Dao {
                 throwables.printStackTrace();
             }
         }
-        System.out.println("Update");
     }
 
     @Override
@@ -205,6 +203,5 @@ public class CustomerDao implements Dao {
                 throwables.printStackTrace();
             }
         }
-        System.out.println("delete");
     }
 }

@@ -16,8 +16,9 @@
                   <Label fx:id="custRecLbl" text="Customer Records" />
                   <TableView fx:id="custTableView" onMouseClicked="#onMouseClickCust" prefHeight="200.0" prefWidth="200.0">
                     <columns>
-                      <TableColumn fx:id="custIDCol" maxWidth="120.0" prefWidth="120.0" text="Customer ID" />
-                      <TableColumn fx:id="custNameCol" maxWidth="268.0" minWidth="75.0" prefWidth="268.0" text="Customer Name" />
+                      <TableColumn fx:id="custIDCol" prefWidth="80" text="Customer ID" />
+                      <TableColumn fx:id="custNameCol"  prefWidth="135" text="Customer Name" />
+                      <TableColumn fx:id="custFLDCol" prefWidth="168" text="FLD" />
                     </columns>
                      <VBox.margin>
                         <Insets bottom="5.0" top="5.0" />
