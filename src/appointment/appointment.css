@@ -1,0 +1,10 @@
+.label {
+    -fx-padding: 5px;
+    -fx-pref-height: 35px;
+    -fx-pref-width: 120px;
+}
+.text-field {
+    -fx-padding: 5px;
+    -fx-pref-height: 35px;
+
+}

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane stylesheets="@appointment.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="appointment.AppointmentController">
+<children>
+    <VBox>
+        <HBox alignment="CENTER_LEFT" spacing="5.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label fx:id="appIDLbl" text="Appointment ID">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </Label>
+            <TextField fx:id="appIDTxt" disable="true" editable="false" minWidth="200.0" text="Auto Generated"/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" layoutX="15.0" layoutY="60.0" spacing="5.0">
+            <VBox.margin>
+                <Insets left="5.0" right="5.0"/>
+            </VBox.margin>
+            <Label fx:id="appCustLbl" text="Customer">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </Label>
+            <ComboBox fx:id="appCustCombo" prefWidth="150.0"/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" spacing="5.0">
+            <VBox.margin>
+                <Insets left="5.0" right="5.0"/>
+            </VBox.margin>
+            <Label fx:id="appContactLbl" text="Contact">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </Label>
+            <ComboBox fx:id="appContactCombo" prefWidth="150.0"/>
+
+        </HBox>
+        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" spacing="5.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label fx:id="appTitleLbl" text="Title">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </Label>
+            <TextField fx:id="appTitleTxt" minWidth="200.0"/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" layoutX="15.0" layoutY="60.0" spacing="5.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label fx:id="appDescLbl" text="Description">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </Label>
+            <TextField fx:id="appDescTxt" minWidth="200.0"/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" layoutX="15.0" layoutY="60.0" spacing="5.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label fx:id="appLocationLbl" text="Location">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </Label>
+            <TextField fx:id="appLocationTxt" minWidth="200.0"/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="135.0" spacing="5.0">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Label fx:id="appTypeLbl" text="Type">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </Label>
+            <TextField fx:id="appTypeTxt" minWidth="200.0"/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" layoutX="15.0" layoutY="265.0" spacing="5.0">
+            <VBox.margin>
+                <Insets left="5.0" right="5.0"/>
+            </VBox.margin>
+            <Label fx:id="appStartLbl" text="Start">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </Label>
+            <DatePicker fx:id="appStartDate"/>
+        </HBox>
+        <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="360.0" spacing="5.0">
+            <VBox.margin>
+                <Insets left="5.0" right="5.0"/>
+            </VBox.margin>
+            <Label fx:id="appStopLbl" text="Stop">
+                <HBox.margin>
+                    <Insets/>
+                </HBox.margin>
+            </Label>
+            <DatePicker/>
+        </HBox>
+        <HBox alignment="CENTER_RIGHT">
+            <VBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </VBox.margin>
+            <Button minHeight="35.0" minWidth="50.0" mnemonicParsing="false" onAction="#onActionSave" text="Save"
+                    textAlignment="RIGHT">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </HBox.margin>
+            </Button>
+            <Button alignment="CENTER_RIGHT" cancelButton="true" mnemonicParsing="false" onAction="#onActionCancel"
+                    prefHeight="35.0" text="Cancel"/>
+        </HBox>
+    </VBox>
+</children>
+</AnchorPane>

@@ -2,7 +2,7 @@
 Version: 1.0  
 Release Date: 11/20/2020
 
-A program to track appointments using a mysql database.
+A program to track appointment using a mysql database.
 
 ## Author
 Clayton Black  

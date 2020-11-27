@@ -6,11 +6,7 @@ import dao.implementations.First_Level_DivisionDao;
 import dao.models.Appointment;
 import dao.models.Customer;
 import dao.models.First_Level_Division;
-import dao.models.User;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,16 +14,55 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
-import resources.LoadObject;
 import resources.Loader;
 
-import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Optional;
 
 public class Mainmenu {
 
+    @FXML
+    public TableView<Appointment> appTableView;
+    @FXML
+    public RadioButton appDisplayToggleMonthly;
+    @FXML
+    public ToggleGroup appDisplayToggle;
+    @FXML
+    public RadioButton appDisplayToggleWeekly;
+    @FXML
+    public TableColumn<Appointment, Integer> appIDCol;
+    @FXML
+    public TableColumn<Appointment, String> appTitleCol;
+    @FXML
+    public TableColumn<Appointment, String> appDesCol;
+    @FXML
+    public TableColumn<Appointment, String> appLocCol;
+    @FXML
+    public TableColumn<Appointment, String> appContactCol;
+    @FXML
+    public TableColumn<Appointment, String> appTypeCol;
+    @FXML
+    public TableColumn<Appointment, String> appStartcol;
+    @FXML
+    public TableColumn<Appointment, String> appEndCol;
+    @FXML
+    public TableColumn<Appointment, Integer> appCustCol;
+    @FXML
+    public Button appPreviousBtn;
+    @FXML
+    public Button appNextBtn;
+    @FXML
+    public Button appAddButton;
+    @FXML
+    public Button appEditButton;
+    @FXML
+    public Button appDeleteButton;
+    @FXML
+    public Label appDateDisplaylbl;
+    @FXML
+    public Button custClearButton;
     @FXML
     private Label custRecLbl;
     @FXML
@@ -46,10 +81,64 @@ public class Mainmenu {
     private Button custDeleteButton;
 
     ObservableList<Customer> customers = FXCollections.observableArrayList();
+    ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+    ObservableList<Appointment> filteredByCustAppointments = FXCollections.observableArrayList();
+    ObservableList<Appointment> filteredByDateAppointments = FXCollections.observableArrayList();
+    Calendar appdisplayDate;
 
     Loader loader = new Loader();
 
     public void onMouseClickCust(MouseEvent mouseEvent) {
+        updateAppointmentsFromCustomers();
+    }
+
+    public void onActionCustClear(ActionEvent actionEvent) {
+        custTableView.getSelectionModel().select(null);
+        updateAppointmentsFromCustomers();
+    }
+
+    private void updateAppointmentsFromCustomers(){
+        this.filteredByCustAppointments = this.appointments.filtered(appointment -> {
+            // If no Customer selected do not filter.
+            try {
+                custTableView.getSelectionModel().getSelectedItem().getId();
+            } catch (NullPointerException e) {
+                return true;
+            }
+
+            boolean display = true;
+
+            if (!(appointment.getCustomerID() == custTableView.getSelectionModel().getSelectedItem().getId()))
+                display = false;
+
+            return display;
+        });
+
+        updateAppointmentsFromDate();
+    }
+
+    private void updateAppointmentsFromDate(){
+        this.filteredByDateAppointments = this.filteredByCustAppointments.filtered(appointment -> {
+            boolean display = true;
+
+            // confirm same year.
+            if (!(appointment.getStart().get(Calendar.YEAR) == appdisplayDate.get(Calendar.YEAR)))
+                display = false;
+
+            if (appDisplayToggleMonthly.isSelected()) {
+                if (!(appointment.getStart().get(Calendar.MONTH) == appdisplayDate.get(Calendar.MONTH)))
+                    display = false;
+
+            } else {
+                if (!(appointment.getStart().get(Calendar.WEEK_OF_YEAR) == appdisplayDate.get(Calendar.WEEK_OF_YEAR)))
+                    display = false;
+            }
+
+
+            return display;
+        });
+
+        appTableView.setItems(this.filteredByDateAppointments);
     }
 
     public void onActionCustAdd(ActionEvent actionEvent) {
@@ -125,20 +214,40 @@ public class Mainmenu {
     }
 
     public void initialize(){
+        this.appdisplayDate = Calendar.getInstance();
+//        this.appdisplayDate.set(Calendar.DAY_OF_MONTH, 1);
+
         CustomerDao customerDao = new CustomerDao();
         First_Level_DivisionDao fldDao = new First_Level_DivisionDao();
         String[] divisions = getFLDArray(fldDao);
 
+        this.customers = customerDao.getAll();
 
-        custTableView.setItems(customerDao.getAll());
+        custTableView.setItems(this.customers);
         custIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         custNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         custFLDCol.setCellValueFactory((cust -> new SimpleStringProperty(divisions[cust.getValue().getDivisionID()])));
 
         AppointmentDao appointmentDao = new AppointmentDao();
-        ObservableList<Appointment> appointments = appointmentDao.getAll();
+        this.appointments = appointmentDao.getAll();
 
-        appointments.forEach((appointment) -> System.out.println("Appointment ID: " + appointment.getId() + " Title: " + appointment.getTitle()));
+        updateAppDateDisplay();
+        updateAppointmentsFromCustomers();
+        updateAppointmentsFromDate();
+
+        appIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        appTitleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        appDesCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        appLocCol.setCellValueFactory(new PropertyValueFactory<>("location"));
+        appContactCol.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        appTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        appStartcol.setCellValueFactory((app) -> new SimpleStringProperty(app.getValue().getStart().getTime().toString()));
+        appEndCol.setCellValueFactory((app) -> new SimpleStringProperty(app.getValue().getEnd().getTime().toString()));
+        appCustCol.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+
+
+
+//        appointments.forEach((appointment) -> System.out.println("AppointmentController ID: " + appointment.getId() + " Title: " + appointment.getTitle()));
     }
 
     private String[] getFLDArray(First_Level_DivisionDao fldDao){
@@ -154,5 +263,62 @@ public class Mainmenu {
         fldFromDB.forEach((f) -> divisions[f.getId()] = f.getDivision());
 
         return divisions;
+    }
+
+    public void onActionDisplayToggle(ActionEvent actionEvent) {
+        if (appDisplayToggleMonthly.isSelected())
+            System.out.println("Display: Monthly");
+        else
+            System.out.println("Display: Weekly");
+
+        updateAppointmentsFromDate();
+        updateAppDateDisplay();
+    }
+
+    public void onActionAppPrevious(ActionEvent actionEvent) {
+        if (appDisplayToggleMonthly.isSelected())
+            this.appdisplayDate.set(Calendar.MONTH, appdisplayDate.get(Calendar.MONTH) - 1);
+        else
+            this.appdisplayDate.set(Calendar.WEEK_OF_YEAR, appdisplayDate.get(Calendar.WEEK_OF_YEAR) - 1);
+
+        updateAppointmentsFromDate();
+        updateAppDateDisplay();
+    }
+
+    public void onActionAppNext(ActionEvent actionEvent) {
+        if (appDisplayToggleMonthly.isSelected())
+            this.appdisplayDate.set(Calendar.MONTH, appdisplayDate.get(Calendar.MONTH) + 1);
+        else
+            this.appdisplayDate.set(Calendar.WEEK_OF_YEAR, appdisplayDate.get(Calendar.WEEK_OF_YEAR) + 1);
+
+        updateAppointmentsFromDate();
+        updateAppDateDisplay();
+    }
+
+    private void updateAppDateDisplay(){
+        String dateFormat;
+        if (appDisplayToggleMonthly.isSelected())
+            dateFormat = "MMMMM yyyy";
+        else
+            dateFormat = "'Week' w 'of' yyyy";
+
+        String formattedDate = new SimpleDateFormat(dateFormat).format(appdisplayDate.getTime());
+        try {
+            appDateDisplaylbl.setText(formattedDate);
+        } catch (Exception e){
+            System.out.println("There was an exception in updateAppDateDisplay");
+            e.printStackTrace();
+        }
+    }
+
+    public void onActionAppAdd(ActionEvent actionEvent) {
+        loader.loadScene(actionEvent, "/appointment/appointment.fxml");
+    }
+
+    public void onActionAppEdit(ActionEvent actionEvent) {
+        loader.loadScene(actionEvent, "/appointment/appointment.fxml");
+    }
+
+    public void onActionAppDelete(ActionEvent actionEvent) {
     }
 }

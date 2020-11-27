@@ -3,7 +3,7 @@ package dao.models;
 import java.util.Calendar;
 
 /**
- * Data Structure to hold information about Appointment
+ * Data Structure to hold information about AppointmentController
  */
 public class Appointment {
     private int id;
@@ -24,20 +24,20 @@ public class Appointment {
     private Calendar updated;
 
     /** Constructs the Data Structure
-     * @param id The id of the Appointment.
-     * @param customerID The ID of the customer associated with the Appointment.
-     * @param userID The ID of the User associated with the Appointment.
-     * @param contactID The ID of the contact Associated with the Appointment.
-     * @param title The Title or Subject of the Appointment.
-     * @param description The description of the Appointment.
-     * @param location The location of the Appointment.
-     * @param type The type of Appointment.
-     * @param createdBy The user that created the Appointment.
-     * @param updatedBy The user that updated the Appointment.
-     * @param start The start datetime of the Appointment.
-     * @param end The end datetime of the Appointment.
-     * @param created The datetime the Appointment was created.
-     * @param updated The datetime the Appointment was last updated.
+     * @param id The id of the AppointmentController.
+     * @param customerID The ID of the customer associated with the AppointmentController.
+     * @param userID The ID of the User associated with the AppointmentController.
+     * @param contactID The ID of the contact Associated with the AppointmentController.
+     * @param title The Title or Subject of the AppointmentController.
+     * @param description The description of the AppointmentController.
+     * @param location The location of the AppointmentController.
+     * @param type The type of AppointmentController.
+     * @param createdBy The user that created the AppointmentController.
+     * @param updatedBy The user that updated the AppointmentController.
+     * @param start The start datetime of the AppointmentController.
+     * @param end The end datetime of the AppointmentController.
+     * @param created The datetime the AppointmentController was created.
+     * @param updated The datetime the AppointmentController was last updated.
      */
     public Appointment(int id, int customerID, int userID, int contactID, String title, String description, String location, String type, String createdBy, String updatedBy, Calendar start, Calendar end, Calendar created, Calendar updated) {
         this.id = id;

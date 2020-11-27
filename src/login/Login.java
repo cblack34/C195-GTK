@@ -84,7 +84,7 @@ public class Login {
             alert.setHeaderText("Upcoming Appointments");
             if (appointments.size() > 0) {
                 Appointment appointment = appointments.get(0);
-                alert.setContentText("Appointment ID: " + appointment.getId() + "\nDate and time: " + appointment.getStart().getTime());
+                alert.setContentText("AppointmentController ID: " + appointment.getId() + "\nDate and time: " + appointment.getStart().getTime());
             } else
                 alert.setContentText("You have no upcoming Appointments!\nWhat are you even doing with your life?");
 
@@ -102,6 +102,11 @@ public class Login {
         loginUserLabel.setText(rb.getString("loginUserLabel") + ": ");
         loginPassLabel.setText(rb.getString("loginPassLabel") + ": ");
         loginBtn.setText(rb.getString("loginBtn"));
+
+        // for testing
+        loginUserTextField.setText("test");
+        loginPassTextField.setText("test");
+
     }
 
 }

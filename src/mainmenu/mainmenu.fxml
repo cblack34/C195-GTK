@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mainmenu.Mainmenu">
    <children>
@@ -17,7 +18,7 @@
                   <TableView fx:id="custTableView" onMouseClicked="#onMouseClickCust" prefHeight="200.0" prefWidth="200.0">
                     <columns>
                       <TableColumn fx:id="custIDCol" prefWidth="80" text="Customer ID" />
-                      <TableColumn fx:id="custNameCol"  prefWidth="135" text="Customer Name" />
+                      <TableColumn fx:id="custNameCol" prefWidth="135" text="Customer Name" />
                       <TableColumn fx:id="custFLDCol" prefWidth="168" text="FLD" />
                     </columns>
                      <VBox.margin>
@@ -26,12 +27,70 @@
                   </TableView>
                   <HBox spacing="20.0">
                      <children>
-                        <Button fx:id="custAddButton" minHeight="35.0" mnemonicParsing="false" onAction="#onActionCustAdd" prefWidth="100.0" text="Add" />
-                        <Button fx:id="custEditButton" layoutX="10.0" layoutY="10.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionCustEdit" prefWidth="100.0" text="Edit" />
-                        <Button fx:id="custDeleteButton" layoutX="10.0" layoutY="10.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionCustDelete" prefWidth="100.0" text="Delete" />
+                        <Button fx:id="custAddButton" minHeight="35.0" mnemonicParsing="false" onAction="#onActionCustAdd" prefWidth="75.0" text="Add" />
+                        <Button fx:id="custEditButton" layoutX="10.0" layoutY="10.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionCustEdit" prefWidth="75.0" text="Edit" />
+                        <Button fx:id="custDeleteButton" layoutX="10.0" layoutY="10.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionCustDelete" prefWidth="75.0" text="Delete" />
+                        <Button fx:id="custClearButton" layoutX="10.0" layoutY="10.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionCustClear" prefWidth="75.0" text="Clear" />
                      </children>
                   </HBox>
                </children></VBox>
+             <VBox prefHeight="500.0" prefWidth="900.0">
+                 <children>
+                     <Label text="Appointments" />
+                     <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                         <children>
+                             <RadioButton fx:id="appDisplayToggleMonthly" mnemonicParsing="false" onAction="#onActionDisplayToggle" selected="true" text="Group By Month">
+                                 <toggleGroup>
+                                     <ToggleGroup fx:id="appDisplayToggle" />
+                                 </toggleGroup>
+                             </RadioButton>
+                             <RadioButton fx:id="appDisplayToggleWeekly" mnemonicParsing="false" onAction="#onActionDisplayToggle" text="Group By Week" toggleGroup="$appDisplayToggle" />
+                        <Label fx:id="appDateDisplaylbl" text="appDateDisplaylbl" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font></Label>
+                         </children>
+                         <VBox.margin>
+                             <Insets bottom="5.0" top="5.0" />
+                         </VBox.margin>
+                     </HBox>
+                     <TableView fx:id="appTableView" prefHeight="200.0" prefWidth="200.0">
+                         <columns>
+                             <TableColumn fx:id="appIDCol" prefWidth="35.0" text="ID" />
+                             <TableColumn fx:id="appTitleCol" prefWidth="50.0" text="Title" />
+                        <TableColumn fx:id="appDesCol" prefWidth="75.0" text="Description" />
+                        <TableColumn fx:id="appLocCol" prefWidth="75.0" text="Location" />
+                        <TableColumn fx:id="appContactCol" prefWidth="75.0" text="Contact" />
+                        <TableColumn fx:id="appTypeCol" prefWidth="70.0" text="Type" />
+                        <TableColumn fx:id="appStartcol" prefWidth="200.0" text="Start Date" />
+                        <TableColumn fx:id="appEndCol" prefWidth="200.0" text="End Date" />
+                        <TableColumn fx:id="appCustCol" prefWidth="45.0" text="Cust ID" />
+                         </columns>
+                         <VBox.margin>
+                             <Insets bottom="5.0" top="5.0" />
+                         </VBox.margin>
+                     </TableView>
+                     <HBox alignment="CENTER" spacing="700.0">
+                         <children>
+                             <Button fx:id="appPreviousBtn" minHeight="35.0" mnemonicParsing="false" onAction="#onActionAppPrevious" prefWidth="75.0" text="← Previous" />
+                             <Button fx:id="appNextBtn" layoutX="10.0" layoutY="10.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionAppNext" prefWidth="75.0" text="Next →" />
+                         </children>
+                     </HBox>
+                     <HBox spacing="20.0">
+                         <children>
+                             <Button fx:id="appAddButton" minHeight="35.0" mnemonicParsing="false" onAction="#onActionAppAdd" prefWidth="75.0" text="Add" />
+                             <Button fx:id="appEditButton" layoutX="10.0" layoutY="10.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionAppEdit" prefWidth="75.0" text="Edit" />
+                             <Button fx:id="appDeleteButton" layoutX="10.0" layoutY="10.0" minHeight="35.0" mnemonicParsing="false" onAction="#onActionAppDelete" prefWidth="75.0" text="Delete" />
+                         </children>
+                         <VBox.margin>
+                             <Insets bottom="10.0" top="10.0" />
+                         </VBox.margin>
+                     </HBox>
+                 </children>
+                 <padding>
+                     <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                 </padding>
+             </VBox>
          </children>
       </HBox>
    </children>

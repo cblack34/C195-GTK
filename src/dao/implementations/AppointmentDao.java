@@ -77,8 +77,39 @@ public class AppointmentDao implements Dao {
         return appointment;
     }
 
+    public ObservableList<Appointment> getAllByCustomer(int custID) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM appointments WHERE Customer_ID = ?");
+            statement.setInt(1, custID);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                appointments.add(createAppointmentFromResultSet(rs));
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try {
+                assert connection != null;
+                connection.close();
+                assert statement != null;
+                statement.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+        return appointments;
+    }
+
     @Override
-    public Optional get(long id) {
+    public Optional<Appointment> get(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -107,7 +138,7 @@ public class AppointmentDao implements Dao {
     }
 
     @Override
-    public ObservableList getAll() {
+    public ObservableList<Appointment> getAll() {
         Connection connection = null;
         PreparedStatement statement = null;
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
