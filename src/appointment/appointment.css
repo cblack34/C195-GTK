@@ -1,10 +1,17 @@
 .label {
     -fx-padding: 5px;
     -fx-pref-height: 35px;
-    -fx-pref-width: 120px;
+    -fx-pref-width: 100px;
+}
+.label-override {
+    -fx-padding: 1px;
+    -fx-pref-width: 5px;
 }
 .text-field {
     -fx-padding: 5px;
     -fx-pref-height: 35px;
 
+}
+.combo-box {
+    -fx-pref-height: 35px;
 }

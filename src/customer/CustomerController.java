@@ -170,7 +170,6 @@ public class CustomerController implements LoadObject {
                         Calendar.getInstance()
                 );
                 customerDao.update(customer);
-
             }
 
             loader.loadScene(actionEvent, "/mainmenu/mainmenu.fxml");

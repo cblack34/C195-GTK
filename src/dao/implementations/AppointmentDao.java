@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import resources.DBConnection;
 
 import java.sql.*;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Optional;
 
@@ -186,8 +187,8 @@ public class AppointmentDao implements Dao {
             statement.setString(2, appointment.getDescription());
             statement.setString(3, appointment.getLocation());
             statement.setString(4, appointment.getType());
-            statement.setTimestamp(5, java.sql.Timestamp.valueOf(appointment.getStart().getTime().toString()));
-            statement.setTimestamp(6, java.sql.Timestamp.valueOf(appointment.getEnd().getTime().toString()));
+            statement.setObject(5, appointment.getStart().getTime());
+            statement.setObject(6, appointment.getEnd().getTime());
             statement.setString(7, appointment.getCreatedBy());
             statement.setString(8, appointment.getUpdatedBy());
             statement.setInt(9, appointment.getCustomerID());
@@ -229,12 +230,13 @@ public class AppointmentDao implements Dao {
             statement.setString(2, appointment.getDescription());
             statement.setString(3, appointment.getLocation());
             statement.setString(4, appointment.getType());
-            statement.setTimestamp(5, java.sql.Timestamp.valueOf(appointment.getStart().getTime().toString()));
-            statement.setTimestamp(6, java.sql.Timestamp.valueOf(appointment.getEnd().getTime().toString()));
+            statement.setObject(5, appointment.getStart().getTime());
+            statement.setObject(6, appointment.getEnd().getTime());
             statement.setString(7, appointment.getUpdatedBy());
             statement.setInt(8, appointment.getCustomerID());
             statement.setInt(9, appointment.getUserID());
             statement.setInt(10, appointment.getContactID());
+            statement.setInt(11, appointment.getId());
 
             statement.executeUpdate();
 
