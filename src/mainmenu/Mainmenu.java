@@ -21,6 +21,9 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Optional;
 
+/**
+ * @author CBlack
+ */
 public class Mainmenu {
 
     @FXML
@@ -88,15 +91,24 @@ public class Mainmenu {
 
     Loader loader = new Loader();
 
+    /** Updates the Appointment tableview when a customer is selected.
+     * @param mouseEvent Select customer in TableView
+     */
     public void onMouseClickCust(MouseEvent mouseEvent) {
         updateAppointmentsFromCustomers();
     }
 
+    /** Deselects all Customers from the tableview.
+     * @param actionEvent Clear button push
+     */
     public void onActionCustClear(ActionEvent actionEvent) {
         custTableView.getSelectionModel().select(null);
         updateAppointmentsFromCustomers();
     }
 
+    /**
+     * Updates the Appointment tableview based on Customer selection.
+     */
     private void updateAppointmentsFromCustomers(){
         this.filteredByCustAppointments = this.appointments.filtered(appointment -> {
             // If no Customer selected do not filter.
@@ -117,6 +129,9 @@ public class Mainmenu {
         updateAppointmentsFromDate();
     }
 
+    /**
+     * Creates list of appointments within the current date range.
+     */
     private void updateAppointmentsFromDate(){
         this.filteredByDateAppointments = this.filteredByCustAppointments.filtered(appointment -> {
             boolean display = true;
@@ -141,10 +156,16 @@ public class Mainmenu {
         appTableView.setItems(this.filteredByDateAppointments);
     }
 
+    /** Load view to add a Customer
+     * @param actionEvent Add button push
+     */
     public void onActionCustAdd(ActionEvent actionEvent) {
         loader.loadScene(actionEvent, "/customer/customer.fxml");
     }
 
+    /** Load view to edit a customer
+     * @param actionEvent edit button push.
+     */
     public void onActionCustEdit(ActionEvent actionEvent) {
         try{
             ObservableList<Customer> customers = custTableView.getSelectionModel().getSelectedItems();
@@ -172,9 +193,7 @@ public class Mainmenu {
     }
 
     /** Called when the delete customer button is pushed on the mainmenu. Deletes the customer.
-     * @todo Add delete confirmation before deleting.
-     *
-     * @param actionEvent
+     * @param actionEvent Delete button push.
      */
     public void onActionCustDelete(ActionEvent actionEvent) {
         CustomerDao customerDao = new CustomerDao();
@@ -194,6 +213,12 @@ public class Mainmenu {
             Customer customer = customers.get(0);
 
             if (customAlert(customer.getName())) {
+                AppointmentDao appointmentDao = new AppointmentDao();
+
+                for (Appointment a : appointmentDao.getAllByCustomer(customer.getId())){
+                    appointmentDao.delete(a);
+                }
+
                 customerDao.delete(customer);
                 initialize();
             }
@@ -205,6 +230,10 @@ public class Mainmenu {
         }
     }
 
+    /** Warn that all Appointments for this Customer will also be deleted.
+     * @param customer Customer to be deleted
+     * @return did the user press ok.
+     */
     private boolean customAlert(String customer) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "This will delete all appointments for this customer as well!");
         alert.setHeaderText("Are you sure you want to delete customer: " + customer + "?");
@@ -213,6 +242,9 @@ public class Mainmenu {
         return confirmed.get() == ButtonType.OK;
     }
 
+    /**
+     * Setup all data for the view.
+     */
     public void initialize(){
         this.appdisplayDate = Calendar.getInstance();
 //        this.appdisplayDate.set(Calendar.DAY_OF_MONTH, 1);
@@ -250,6 +282,10 @@ public class Mainmenu {
 //        appointments.forEach((appointment) -> System.out.println("AppointmentController ID: " + appointment.getId() + " Title: " + appointment.getTitle()));
     }
 
+    /** Get an array of all FLD with their ID as the index.
+     * @param fldDao The DAO implementation to use.
+     * @return List of all FLD.
+     */
     private String[] getFLDArray(First_Level_DivisionDao fldDao){
         ObservableList<First_Level_Division> fldFromDB = fldDao.getAll();
         String[] divisions;
@@ -265,6 +301,9 @@ public class Mainmenu {
         return divisions;
     }
 
+    /** Change the display over Appointments when monthly or weekly is chosen.
+     * @param actionEvent toggle event.
+     */
     public void onActionDisplayToggle(ActionEvent actionEvent) {
         if (appDisplayToggleMonthly.isSelected())
             System.out.println("Display: Monthly");
@@ -275,6 +314,9 @@ public class Mainmenu {
         updateAppDateDisplay();
     }
 
+    /** Go to previous time frame
+     * @param actionEvent previous button push
+     */
     public void onActionAppPrevious(ActionEvent actionEvent) {
         if (appDisplayToggleMonthly.isSelected())
             this.appdisplayDate.set(Calendar.MONTH, appdisplayDate.get(Calendar.MONTH) - 1);
@@ -285,6 +327,9 @@ public class Mainmenu {
         updateAppDateDisplay();
     }
 
+    /** Go to next time frame
+     * @param actionEvent next button push
+     */
     public void onActionAppNext(ActionEvent actionEvent) {
         if (appDisplayToggleMonthly.isSelected())
             this.appdisplayDate.set(Calendar.MONTH, appdisplayDate.get(Calendar.MONTH) + 1);
@@ -295,6 +340,9 @@ public class Mainmenu {
         updateAppDateDisplay();
     }
 
+    /**
+     * Update the Current time frame displayed on the Appointments table view.
+     */
     private void updateAppDateDisplay(){
         String dateFormat;
         if (appDisplayToggleMonthly.isSelected())
@@ -311,14 +359,51 @@ public class Mainmenu {
         }
     }
 
+    /** load add Appointment view.
+     * @param actionEvent Add button push
+     */
     public void onActionAppAdd(ActionEvent actionEvent) {
         loader.loadScene(actionEvent, "/appointment/appointment.fxml");
     }
 
+    /** load edit Appointment view.
+     * @param actionEvent edit button push
+     */
     public void onActionAppEdit(ActionEvent actionEvent) {
-        loader.loadScene(actionEvent, "/appointment/appointment.fxml");
+        try {
+            Appointment appointment = appTableView.getSelectionModel().getSelectedItem();
+
+            loader.loadScene(actionEvent, "/appointment/appointment.fxml", appointment);
+        } catch (NullPointerException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Choose an Appointment to modify");
+            alert.setContentText("You must select an Appointment to modify before pressing the edit button");
+            alert.showAndWait();
+        }
     }
 
+    /** Delete selected Appointment and reload current view.
+     * @param actionEvent Delete button push
+     */
     public void onActionAppDelete(ActionEvent actionEvent) {
+        AppointmentDao appointmentDao = new AppointmentDao();
+
+        try{
+            Appointment appointment = appTableView.getSelectionModel().getSelectedItem();
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Canel Appointment?");
+            alert.setHeaderText("Are you sure you want to delete\nappointment ID: " + appointment.getId() + "\nTitle: " + appointment.getType());
+            Optional<ButtonType> confirmed = alert.showAndWait();
+
+            if (confirmed.get() == ButtonType.OK) {
+                appointmentDao.delete(appointment);
+                initialize();
+            }
+        } catch (NullPointerException e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Choose an Appointment to delete");
+            alert.setContentText("You must select an Appointment to delete before pressing the delete button");
+            alert.showAndWait();
+        }
     }
 }

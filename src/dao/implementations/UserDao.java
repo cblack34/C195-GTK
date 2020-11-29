@@ -15,6 +15,11 @@ import java.util.Optional;
 
 public class UserDao implements Dao {
 
+    /** Create a user from a Result Set
+     * @param rs Result Set from a query.
+     * @return User from the Result Set.
+     * @throws SQLException
+     */
     private User createUserFromResultSet(ResultSet rs) throws SQLException {
         Calendar created = Calendar.getInstance();
         created.setTimeInMillis(rs.getTimestamp("Create_Date").getTime());
@@ -35,6 +40,11 @@ public class UserDao implements Dao {
         return user;
     }
 
+    /** Search the DB for a user with the Username and Password provided.
+     * @param user Username of user
+     * @param pass Password of user
+     * @return optional User if one is found else empty.
+     */
     public Optional<User> getByUserAndPass(String user, String pass){
         Connection connection = null;
         PreparedStatement statement = null;
@@ -63,6 +73,10 @@ public class UserDao implements Dao {
         return Optional.empty();
     }
 
+    /** Get a single User from the DB by id.
+     * @param id The ID of the object to be retrieved from the db.
+     * @return
+     */
     @Override
     public Optional get(long id) {
         Connection connection = null;
@@ -92,21 +106,33 @@ public class UserDao implements Dao {
         return Optional.empty();
     }
 
+    /** Not Implemented
+     * @return null
+     */
     @Override
     public ObservableList getAll() {
         return null;
     }
 
+    /** Not Implemented.
+     * @param o generic object
+     */
     @Override
     public void save(Object o) {
 
     }
 
+    /** Not Implemented.
+     * @param o generic object
+     */
     @Override
     public void update(Object o) {
 
     }
 
+    /** Not Implemented.
+     * @param o generic object
+     */
     @Override
     public void delete(Object o) {
 

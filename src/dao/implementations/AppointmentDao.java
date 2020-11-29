@@ -3,6 +3,8 @@ package dao.implementations;
 import dao.interfaces.Dao;
 import dao.models.Appointment;
 import dao.models.Customer;
+import dao.models.ReportOne;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import resources.DBConnection;
@@ -14,6 +16,10 @@ import java.util.Optional;
 
 public class AppointmentDao implements Dao {
 
+    /** Get all appointments within the next 15 mins for the current user.
+     * @param userID The ID of the user to check for upcoming appointments
+     * @return List of events happening in the next 15 mins.
+     */
     public ObservableList<Appointment> getUpcoming(int userID){
         Connection connection = null;
         PreparedStatement statement = null;
@@ -45,6 +51,11 @@ public class AppointmentDao implements Dao {
         return appointments;
     }
 
+    /** Create an Appointment from a Result Set
+     * @param rs Result Set from a query
+     * @return the Appointment from the Result Set
+     * @throws SQLException
+     */
     private Appointment createAppointmentFromResultSet(ResultSet rs) throws SQLException {
         Calendar created = Calendar.getInstance();
         created.setTimeInMillis(rs.getTimestamp("Create_Date").getTime());
@@ -78,6 +89,10 @@ public class AppointmentDao implements Dao {
         return appointment;
     }
 
+    /** Get the Appointments based on the Customer_ID
+     * @param custID ID of the customer to use in the query.
+     * @return List of Appointments.
+     */
     public ObservableList<Appointment> getAllByCustomer(int custID) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -109,6 +124,10 @@ public class AppointmentDao implements Dao {
         return appointments;
     }
 
+    /** Get a single Appointment based on ID
+     * @param id The ID of the object to be retrieved from the db.
+     * @return The Appointment with the correct ID.
+     */
     @Override
     public Optional<Appointment> get(long id) {
         Connection connection = null;
@@ -138,6 +157,9 @@ public class AppointmentDao implements Dao {
         return Optional.empty();
     }
 
+    /** Get all Appointments in the table
+     * @return List of All Appointments in the table
+     */
     @Override
     public ObservableList<Appointment> getAll() {
         Connection connection = null;
@@ -169,6 +191,9 @@ public class AppointmentDao implements Dao {
         return appointments;
     }
 
+    /** Add an Appointment to the DB
+     * @param o Appointment to be added to the db
+     */
     @Override
     public void save(Object o) {
         Appointment appointment = (Appointment) o;
@@ -211,6 +236,9 @@ public class AppointmentDao implements Dao {
         }
     }
 
+    /** Update an Appointment in the db.
+     * @param o Appointment to be updated in the db.
+     */
     @Override
     public void update(Object o) {
         Appointment appointment = (Appointment) o;
@@ -222,8 +250,8 @@ public class AppointmentDao implements Dao {
             connection = DBConnection.getConnection();
             statement = connection.prepareStatement(
                     "UPDATE appointments SET " +
-                            "Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Last_Updated_By=?, Customer_ID=?, User_ID=?, Contact_ID=?" +
-                            "WHERE Appointment_ID = ?"
+                            "Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Last_Updated_By=?, Customer_ID=?, User_ID=?, Contact_ID=? " +
+                            "WHERE Appointment_ID=?"
             );
 
             statement.setString(1, appointment.getTitle());
@@ -254,6 +282,9 @@ public class AppointmentDao implements Dao {
         }
     }
 
+    /** Delete an Appointment from the db.
+     * @param o The Appointment to be deleted from the db.
+     */
     @Override
     public void delete(Object o) {
         Appointment appointment = (Appointment) o;
@@ -280,5 +311,37 @@ public class AppointmentDao implements Dao {
                 throwables.printStackTrace();
             }
         }
+    }
+
+    /**
+     * @return List of All Appointments Types in the table with a count of how many of each type.
+     */
+    public ObservableList<ReportOne> reportOne(){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ObservableList<ReportOne> reports = FXCollections.observableArrayList();
+
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareStatement("SELECT COUNT(*) as Count, Type, MONTHNAME(Start) as Month FROM appointments GROUP BY Type, MONTHNAME(Start)");
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                reports.add(new ReportOne(rs.getInt("Count"), rs.getString("Type"), rs.getString("Month")));
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try {
+                assert connection != null;
+                connection.close();
+                assert statement != null;
+                statement.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return reports;
     }
 }

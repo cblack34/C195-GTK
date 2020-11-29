@@ -42,6 +42,10 @@ public class CountryDao implements Dao {
     }
 
 
+    /** Retrieves one item from the db based on the ID.
+     * @param id The ID of the object to be retrieved from the db.
+     * @return optional object or empty.
+     */
     @Override
     public Optional<Country> get(long id) {
         Connection connection = null;
@@ -73,6 +77,9 @@ public class CountryDao implements Dao {
         return Optional.empty();
     }
 
+    /**Gets all objects from the table
+     * @return all objects in the table
+     */
     @Override
     public ObservableList<Country> getAll() {
         Connection connection = null;
@@ -104,16 +111,25 @@ public class CountryDao implements Dao {
         return countries;
     }
 
+    /** Not implemented.
+     * @param o Object to be saved.
+     */
     @Override
     public void save(Object o) {
 
     }
 
+    /** Not implemented.
+     * @param o Object to be saved.
+     */
     @Override
     public void update(Object o) {
 
     }
 
+    /** Not implemented.
+     * @param o Object to be saved.
+     */
     @Override
     public void delete(Object o) {
 

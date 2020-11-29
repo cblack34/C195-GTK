@@ -5,20 +5,21 @@ import dao.implementations.ContactDao;
 import dao.implementations.CustomerDao;
 import dao.models.Appointment;
 import dao.models.Contact;
-import dao.models.Country;
 import dao.models.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import javafx.util.Callback;
+import resources.LoadObject;
 import resources.Loader;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
-public class AppointmentController {
+public class AppointmentController implements LoadObject {
     @FXML
     public Label appIDLbl;
     @FXML
@@ -70,6 +71,9 @@ public class AppointmentController {
 
     private Loader loader = new Loader();
 
+    /** Saves to appointment to the Database.
+     * @param actionEvent Save button click event.
+     */
     public void onActionSave(ActionEvent actionEvent) {
         // Default to a new customer.
         boolean isNew = true;
@@ -111,7 +115,7 @@ public class AppointmentController {
             errors.append("Description must have a value.\n");
         }
 
-        location = appTitleTxt.getText().trim();
+        location = appLocationTxt.getText().trim();
         if (location.length() < 1) {
             errors.append("Location must have a value.\n");
         }
@@ -125,8 +129,6 @@ public class AppointmentController {
             startDate.setTimeInMillis(java.sql.Date.valueOf(appStartDate.getValue()).getTime());
             startDate.set(Calendar.HOUR, appStartHourCombo.getValue());
             startDate.set(Calendar.MINUTE, appStartMinCombo.getValue());
-
-            System.out.println("Start Date: " + startDate.getTime());
         } catch (NullPointerException e) {
             errors.append("You must set a Start Date and Time.\n");
         }
@@ -135,11 +137,41 @@ public class AppointmentController {
             endDate.setTimeInMillis(java.sql.Date.valueOf(appStopDate.getValue()).getTime());
             endDate.set(Calendar.HOUR, appEndHourCombo.getValue());
             endDate.set(Calendar.MINUTE, appEndMinCombo.getValue());
-
-            System.out.println("End Date: " + endDate.getTime());
         } catch (NullPointerException e) {
             errors.append("You must set a End Date and Time.\n");
         }
+
+        try {
+            if (endDate.compareTo(startDate) != 1){
+                errors.append("Start Date and Time must be before the end Date and Time.");
+            }
+        } catch (NullPointerException ignore) {}
+
+        Appointment appointment = new Appointment(
+                appID,
+                custID,
+                1,
+                contactID,
+                title,
+                desc,
+                location,
+                type,
+                "test",
+                "test",
+                startDate,
+                endDate,
+                Calendar.getInstance(),
+                Calendar.getInstance()
+        );
+
+        if (isConflicting(appointment)) {
+            errors.append("Appointment time conflicts with another appointment.\n");
+        }
+
+        if (!inBusinessHours(appointment)){
+            errors.append("Appointment must be between 8:00 and 22:00 EST\n");
+        }
+
 
         if (errors.length() > 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -151,53 +183,28 @@ public class AppointmentController {
             AppointmentDao appointmentDao = new AppointmentDao();
 
             if (isNew) {
-                Appointment appointment = new Appointment(
-                        appID,
-                        custID,
-                        1,
-                        contactID,
-                        title,
-                        desc,
-                        location,
-                        type,
-                        "test",
-                        "test",
-                        startDate,
-                        endDate,
-                        Calendar.getInstance(),
-                        Calendar.getInstance()
-                );
-
                 appointmentDao.save(appointment);
             } else {
-                Appointment appointment = new Appointment(
-                        appID,
-                        custID,
-                        1,
-                        contactID,
-                        title,
-                        desc,
-                        location,
-                        type,
-                        "test",
-                        "test",
-                        startDate,
-                        endDate,
-                        Calendar.getInstance(),
-                        Calendar.getInstance()
-                );
-
                 appointmentDao.update(appointment);
-
             }
             loader.loadScene(actionEvent, "/mainmenu/mainmenu.fxml");
         }
     }
 
+    /** Loads the mainmenu without making any changes to appointments.
+     * @param actionEvent button press event
+     */
     public void onActionCancel(ActionEvent actionEvent) {
         loader.loadScene(actionEvent, "/mainmenu/mainmenu.fxml");
     }
 
+    /**
+     * Sets up the view for Appointment adds and edits.
+     * I created two lambda expressions in this method.
+     * Both Lambdas are callbacks for creating CellFactories.
+     * The lambdas relieve me of having to create custom classes for Cell Factories.
+     * This makes the code much simpler to read and debug.
+     */
     public void initialize(){
         // Add Customer Selection
         Callback<ListView<Customer>, ListCell<Customer>> customerFactory = lv -> new ListCell<Customer>() {
@@ -244,10 +251,116 @@ public class AppointmentController {
             appStartHourCombo.getItems().add(i);
             appEndHourCombo.getItems().add(i);
         }
-        for (int i = 0; i <= 59; i++) {
+
+        for (int i : new int[]{0, 15, 30, 45}) {
             appStartMinCombo.getItems().add(i);
             appEndMinCombo.getItems().add(i);
         }
 
+    }
+
+    /**
+     * Loads the data into a view for the controller.
+     *
+     * @param obj A data structure class.
+     */
+    @Override
+    public void loadObject(Object obj) {
+        Appointment appointment = (Appointment) obj;
+
+        appIDTxt.setText(String.valueOf(appointment.getId()));
+
+        for (Customer cust : appCustCombo.getItems()){
+            if (cust.getId() == appointment.getCustomerID()){
+                appCustCombo.getSelectionModel().select(cust);
+                break;
+            }
+        }
+
+        for (Contact con : appContactCombo.getItems()){
+            if (con.getId() == appointment.getContactID()){
+                appContactCombo.getSelectionModel().select(con);
+                break;
+            }
+        }
+
+        appTitleTxt.setText(appointment.getTitle());
+        appDescTxt.setText(appointment.getDescription());
+        appLocationTxt.setText(appointment.getLocation());
+        appTypeTxt.setText(appointment.getType());
+
+//        LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+        LocalDateTime localStartTime = LocalDateTime.ofInstant(appointment.getStart().toInstant(),appointment.getStart().getTimeZone().toZoneId());
+        LocalDateTime localStopTime = LocalDateTime.ofInstant(appointment.getEnd().toInstant(),appointment.getEnd().getTimeZone().toZoneId());
+
+        appStartDate.setValue(LocalDate.from(localStartTime));
+        appStartHourCombo.getSelectionModel().select(localStartTime.getHour());
+        appStartMinCombo.getSelectionModel().select(localStartTime.getMinute());
+
+        appStopDate.setValue(LocalDate.from(localStopTime));
+        appEndHourCombo.getSelectionModel().select(localStopTime.getHour());
+        appEndMinCombo.getSelectionModel().select(localStopTime.getMinute());
+
+
+
+    }
+
+    /** Checks if appointment conflicts with other appointments with the same customerID.
+     * @param appointment The appointment to be check.
+     * @return
+     */
+    private boolean isConflicting(Appointment appointment){
+        AppointmentDao appointmentDao = new AppointmentDao();
+        int comparator;
+
+        for (Appointment a : appointmentDao.getAllByCustomer(appCustCombo.getSelectionModel().getSelectedItem().getId())){
+            if (a.getId() == appointment.getId())
+                continue;
+            else {
+                comparator = a.getStart().compareTo(appointment.getStart());
+                comparator += a.getStart().compareTo(appointment.getEnd());
+                comparator += a.getEnd().compareTo(appointment.getStart());
+                comparator += a.getEnd().compareTo(appointment.getEnd());
+
+                if (comparator < 3 && comparator > -3){
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+    /** Checks to see if an appointment is within business hours.
+     * @param appointment The appointment to be checked.
+     * @return True if the appointment is within business hours else false.
+     */
+    private boolean inBusinessHours(Appointment appointment){
+        // Clone cal for start date and End date
+        Calendar comparatorCalendar = (Calendar) appointment.getStart().clone();
+
+        // Set TimeZone to eastern and set to 8am for comparatorCalendar
+        comparatorCalendar.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+        comparatorCalendar.set(Calendar.HOUR, 8);
+        comparatorCalendar.set(Calendar.AM_PM, Calendar.AM);
+
+        // Validate start time is after 8am Easter
+        if (appointment.getStart().compareTo(comparatorCalendar) < 0) {
+            System.out.println("Too Early");
+            return false;
+        }
+
+        // Set comparatorCalendar to 10pm Eastern
+        comparatorCalendar.set(Calendar.HOUR, 10);
+        comparatorCalendar.set(Calendar.AM_PM, Calendar.PM);
+
+        // Validate End time is before 10pm Eastern
+        if (appointment.getEnd().compareTo(comparatorCalendar) > 0) {
+            System.out.println("Too Late");
+            return false;
+        }
+
+        // Within business hours return true.
+        return true;
     }
 }

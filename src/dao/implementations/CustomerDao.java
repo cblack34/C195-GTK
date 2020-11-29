@@ -24,6 +24,10 @@ public class CustomerDao implements Dao {
     private static final String INSERT = "INSERT INTO customers(Division_ID, Customer_Name, Address, Postal_Code, Phone, Created_By, Last_Updated_By) VALUES(?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE customers SET Division_ID=?, Customer_Name=?, Address=?, Postal_Code=?, Phone=?, Last_Updated_By=? WHERE Customer_ID=?";
 
+    /** Get a single Customer from the Db by ID.
+     * @param id The ID of the object to be retrieved from the db.
+     * @return
+     */
     @Override
     public Optional<Customer> get(long id) {
         Connection connection = null;
@@ -53,6 +57,9 @@ public class CustomerDao implements Dao {
         return Optional.empty();
     }
 
+    /** Get a list of all Customers in the DB.
+     * @return List of all Customer in DB
+     */
     @Override
     public ObservableList<Customer> getAll() {
         Connection connection = null;
@@ -84,6 +91,11 @@ public class CustomerDao implements Dao {
         return customers;
     }
 
+    /** Create a Customer given a Result Set
+     * @param rs The Result Set from a query
+     * @return
+     * @throws SQLException
+     */
     private Customer createCustomerFromResultSet(ResultSet rs) throws SQLException {
         Calendar created = Calendar.getInstance();
         created.setTimeInMillis(rs.getTimestamp("Create_Date").getTime());
@@ -107,6 +119,9 @@ public class CustomerDao implements Dao {
         return customer;
     }
 
+    /** Add a Customer to the DB.
+     * @param object Customer to be added
+     */
     @Override
     public void save(Object object) {
         Customer customer = (Customer) object;
@@ -142,6 +157,9 @@ public class CustomerDao implements Dao {
         }
     }
 
+    /** Update a Customer in the DB.
+     * @param object Customer to be updated.
+     */
     @Override
     public void update(Object object) {
         Customer customer = (Customer) object;
@@ -177,6 +195,9 @@ public class CustomerDao implements Dao {
         }
     }
 
+    /** Delete a Customer from the DB.
+     * @param o The Customer to be deleted.
+     */
     @Override
     public void delete(Object o) {
         Customer customer = (Customer) o;

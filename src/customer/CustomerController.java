@@ -39,6 +39,11 @@ public class CustomerController implements LoadObject {
 
     Loader loader = new Loader();
 
+    /**
+     * Loads the data into a view for the controller.
+     *
+     * @param obj A data structure class.
+     */
     @Override
     public void loadObject(Object obj) {
         Customer customer = (Customer) obj;
@@ -74,10 +79,16 @@ public class CustomerController implements LoadObject {
         custPhoneTxt.setText(customer.getPhone());
     }
 
+    /** Loads the mainmenu and does not change any Customer information.
+     * @param actionEvent cancel button click
+     */
     public void onActionCancel(ActionEvent actionEvent) {
         loader.loadScene(actionEvent, "/mainmenu/mainmenu.fxml");
     }
 
+    /** Saves the Customer to the db and loads the mainmenu.
+     * @param actionEvent Save button click
+     */
     public void onActionSave(ActionEvent actionEvent) {
         // Default to a new customer.
         boolean isNew = true;
@@ -176,6 +187,10 @@ public class CustomerController implements LoadObject {
         }
     }
 
+    /** loads the First Level Divisions related to the country selected.
+     * I created a Lambda here to simplify the CellFactory on the First Level Division Combo
+     * @param actionEvent A Country is selected from the countryCombo Combo Box
+     */
     public void onActionCustCountryCombo(ActionEvent actionEvent) {
         First_Level_DivisionDao fldDao = new First_Level_DivisionDao();
 
@@ -195,6 +210,10 @@ public class CustomerController implements LoadObject {
         custFLDCombo.setPromptText(null);
     }
 
+    /**
+     * Sets up the view for Appointment adds and edits.
+     * I created the lambda here to simplify the creation of the Country Combo Block Cell Factory.
+     */
     public void initialize(){
         CountryDao countryDao = new CountryDao();
 

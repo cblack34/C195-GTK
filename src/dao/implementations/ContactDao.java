@@ -16,6 +16,11 @@ import java.util.Optional;
 
 public class ContactDao implements Dao {
 
+    /** create a Contact from a Result Set.
+     * @param rs Results from a query
+     * @return the contact model in the rs.
+     * @throws SQLException
+     */
     private Contact createContactFromResultSet(ResultSet rs) throws SQLException {
         Contact contact = new Contact(
                 rs.getInt("Contact_ID"),
@@ -26,6 +31,10 @@ public class ContactDao implements Dao {
         return contact;
     }
 
+    /** Get a single contact from the db.
+     * @param id The ID of the object to be retrieved from the db.
+     * @return
+     */
     @Override
     public Optional<Contact> get(long id) {
         Connection connection = null;
@@ -58,6 +67,9 @@ public class ContactDao implements Dao {
         return Optional.empty();
     }
 
+    /** Get all contacts in the db.
+     * @return List of all Contacts in the table
+     */
     @Override
     public ObservableList<Contact> getAll() {
         Connection connection = null;
@@ -89,16 +101,25 @@ public class ContactDao implements Dao {
         return contacts;
     }
 
+    /** Not implemented.
+     * @param o Object to be saved.
+     */
     @Override
     public void save(Object o) {
 
     }
 
+    /** Not implemented.
+     * @param o Object to be saved.
+     */
     @Override
     public void update(Object o) {
 
     }
 
+    /** Not implemented.
+     * @param o Object to be saved.
+     */
     @Override
     public void delete(Object o) {
 

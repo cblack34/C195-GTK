@@ -20,6 +20,7 @@ public class DBConnection {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws Exception
+     * @return DriveManager Connection to the db.
      */
     public static Connection getConnection() throws ClassNotFoundException, SQLException, Exception {
         Class.forName(driver);

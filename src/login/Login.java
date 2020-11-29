@@ -39,7 +39,7 @@ public class Login {
     @FXML
     private TextField loginUserTextField;
     @FXML
-    private TextField loginPassTextField;
+    private PasswordField loginPassTextField;
 
     // Buttons
     @FXML

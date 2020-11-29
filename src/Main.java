@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import java.util.Locale;
 
 /**
+ * @author Clayton Black
  * Starts the application
  */
 public class Main extends Application {

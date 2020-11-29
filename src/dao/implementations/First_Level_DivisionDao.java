@@ -40,6 +40,10 @@ public class First_Level_DivisionDao implements Dao {
         );
     }
 
+    /** Get a single FLD.
+     * @param id The ID of the object to be retrieved from the db.
+     * @return
+     */
     @Override
     public Optional<First_Level_Division> get(long id) {
         Connection connection = null;
@@ -71,6 +75,9 @@ public class First_Level_DivisionDao implements Dao {
         return Optional.empty();
     }
 
+    /** Get all First_Level_Division in the DB.
+     * @return a List of all FLD in the DB.
+     */
     @Override
     public ObservableList<First_Level_Division> getAll() {
         Connection connection = null;
@@ -102,21 +109,34 @@ public class First_Level_DivisionDao implements Dao {
         return first_level_divisions;
     }
 
+    /** Not Implemented.
+     * @param o generic object
+     */
     @Override
     public void save(Object o) {
 
     }
 
+    /** Not Implemented.
+     * @param o generic object
+     */
     @Override
     public void update(Object o) {
 
     }
 
+    /** Not Implemented.
+     * @param o generic object
+     */
     @Override
     public void delete(Object o) {
 
     }
 
+    /** Get a list of FLD based on Country ID
+     * @param countryID ID of the Country to search for.
+     * @return List of FLD with the same countryID
+     */
     public ObservableList<First_Level_Division> getAllByCountryID(int countryID) {
         Connection connection = null;
         PreparedStatement statement = null;
