@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface Dao <T> {
     /** Retrieves one item from the db based on the ID.
      * @param id The ID of the object to be retrieved from the db.
-     * @return
+     * @return Optional model
      */
     Optional<T> get(long id);
 

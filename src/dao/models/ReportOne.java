@@ -11,6 +11,7 @@ public class ReportOne {
     /** Constructs the Data Structure
      * @param count The count for this appointment type
      * @param type The type of appointment.
+     * @param month The month of the appointment.
      */
     public ReportOne(int count, String type, String month) {
         this.count = count;
@@ -27,6 +28,7 @@ public class ReportOne {
 
     /**
      * Set the count for this type of appointment
+     * @param count total count of this type of appointment for this month.
      */
     public void setCount(int count) {
         this.count = count;
@@ -41,6 +43,7 @@ public class ReportOne {
 
     /**
      * Set the Type for this appointment type.
+     * @param type The type of appointment.
      */
     public void setType(String type) {
         this.type = type;

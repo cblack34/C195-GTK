@@ -26,7 +26,7 @@ public class CustomerDao implements Dao {
 
     /** Get a single Customer from the Db by ID.
      * @param id The ID of the object to be retrieved from the db.
-     * @return
+     * @return Optional Customer model
      */
     @Override
     public Optional<Customer> get(long id) {

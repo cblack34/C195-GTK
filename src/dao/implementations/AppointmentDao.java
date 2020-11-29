@@ -313,7 +313,7 @@ public class AppointmentDao implements Dao {
         }
     }
 
-    /**
+    /** Get View info for first report
      * @return List of All Appointments Types in the table with a count of how many of each type.
      */
     public ObservableList<ReportOne> reportOne(){
@@ -328,6 +328,77 @@ public class AppointmentDao implements Dao {
 
             while (rs.next()){
                 reports.add(new ReportOne(rs.getInt("Count"), rs.getString("Type"), rs.getString("Month")));
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try {
+                assert connection != null;
+                connection.close();
+                assert statement != null;
+                statement.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return reports;
+    }
+
+    /** Get all appointments for contact
+     * @param contactID The ID of the contact to pull information.
+     * @return List of all appointments for contact.
+     */
+    public ObservableList<Appointment> getAllByContact(int contactID){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM appointments WHERE Contact_ID = ?");
+            statement.setInt(1, contactID);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                appointments.add(createAppointmentFromResultSet(rs));
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try {
+                assert connection != null;
+                connection.close();
+                assert statement != null;
+                statement.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+        return appointments;
+    }
+
+    /** Get View info for Third report
+     * @param contactID ID of the contact to generate the report about.
+     * @return List of All Appointments Types in the table with a count of how many of each type Where the contact is has an ID of contactID.
+     */
+    public ObservableList<ReportOne> ReportTwo(int contactID){
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ObservableList<ReportOne> reports = FXCollections.observableArrayList();
+
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareStatement("SELECT COUNT(*) as Count, Type FROM appointments WHERE Contact_ID = ? GROUP BY Type");
+            statement.setInt(1, contactID);
+            ResultSet rs = statement.executeQuery();
+
+            System.out.println(statement.toString());
+
+            while (rs.next()){
+                reports.add(new ReportOne(rs.getInt("Count"), rs.getString("Type"), null));
             }
 
         } catch (Exception e){

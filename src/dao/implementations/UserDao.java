@@ -75,7 +75,7 @@ public class UserDao implements Dao {
 
     /** Get a single User from the DB by id.
      * @param id The ID of the object to be retrieved from the db.
-     * @return
+     * @return Optional User model
      */
     @Override
     public Optional get(long id) {

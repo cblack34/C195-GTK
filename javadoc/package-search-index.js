@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"appointment"},{"l":"customer"},{"l":"dao.implementations"},{"l":"dao.interfaces"},{"l":"dao.models"},{"l":"login"},{"l":"mainmenu"},{"l":"resources"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"appointment"},{"l":"customer"},{"l":"dao.implementations"},{"l":"dao.interfaces"},{"l":"dao.models"},{"l":"login"},{"l":"mainmenu"},{"l":"report"},{"l":"resources"}]

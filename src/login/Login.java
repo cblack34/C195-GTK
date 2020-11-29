@@ -50,6 +50,7 @@ public class Login {
 
     /**
      * validates username and password by searching the DB for users with matching username and password as provided by the User. Logs login attempts.
+     * @param actionEvent Button click for login
      */
     public void onActionLogin(ActionEvent actionEvent){
         String username = loginUserTextField.getText();

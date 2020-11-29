@@ -33,7 +33,7 @@ public class ContactDao implements Dao {
 
     /** Get a single contact from the db.
      * @param id The ID of the object to be retrieved from the db.
-     * @return
+     * @return optional Contact Model
      */
     @Override
     public Optional<Contact> get(long id) {

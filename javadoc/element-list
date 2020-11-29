@@ -6,4 +6,5 @@ dao.interfaces
 dao.models
 login
 mainmenu
+report
 resources

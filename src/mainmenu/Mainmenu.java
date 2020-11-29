@@ -406,4 +406,8 @@ public class Mainmenu {
             alert.showAndWait();
         }
     }
+
+    public void onActionOpenReports(ActionEvent actionEvent) {
+        loader.loadScene(actionEvent, "/report/report.fxml");
+    }
 }
