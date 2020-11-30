@@ -15,7 +15,7 @@ JavaFX: 11.0.2
 MySQL JDBC Driver: mysql:mysql-connector-java:8.0.22
 
 ## Directions
-On start use the user/pass test:test. It should be prepopulated
+On start use the user/pass test:test. It should be pre-populated.
 
 By default, all customers and Appointments for the current month are displayed.
 If you select a customer on the left the appointments on the right are filtered to just that Customer.

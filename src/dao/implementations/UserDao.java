@@ -3,6 +3,7 @@ package dao.implementations;
 import dao.interfaces.Dao;
 import dao.models.Customer;
 import dao.models.User;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import resources.DBConnection;
 
@@ -78,7 +79,7 @@ public class UserDao implements Dao {
      * @return Optional User model
      */
     @Override
-    public Optional get(long id) {
+    public Optional<User> get(long id) {
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -106,12 +107,38 @@ public class UserDao implements Dao {
         return Optional.empty();
     }
 
-    /** Not Implemented
-     * @return null
+    /** Get a list of all Users in the DB.
+     * @return List of all Users in DB
      */
     @Override
-    public ObservableList getAll() {
-        return null;
+    public ObservableList<User> getAll() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ObservableList<User> users = FXCollections.observableArrayList();
+
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM users");
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                users.add(createUserFromResultSet(rs));
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try {
+                assert connection != null;
+                connection.close();
+                assert statement != null;
+                statement.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
+        return users;
     }
 
     /** Not Implemented.

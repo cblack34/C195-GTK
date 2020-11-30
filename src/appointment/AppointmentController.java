@@ -3,9 +3,11 @@ package appointment;
 import dao.implementations.AppointmentDao;
 import dao.implementations.ContactDao;
 import dao.implementations.CustomerDao;
+import dao.implementations.UserDao;
 import dao.models.Appointment;
 import dao.models.Contact;
 import dao.models.Customer;
+import dao.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -68,6 +70,10 @@ public class AppointmentController implements LoadObject {
     public Label appEndTZLbl;
     @FXML
     public DatePicker appStopDate;
+    @FXML
+    public Label appUserLbl;
+    @FXML
+    public ComboBox<User> appUserCombo;
 
     private Loader loader = new Loader();
 
@@ -82,7 +88,7 @@ public class AppointmentController implements LoadObject {
         StringBuilder errors = new StringBuilder();
 
         // Create all vars needed for a
-        int appID = 0, custID = 0, contactID = 0, startHour = 0, startMin = 0, stopHour = 0, stopMin = 0;
+        int appID = 0, custID = 0, contactID = 0, startHour = 0, startMin = 0, stopHour = 0, stopMin = 0, userID = 0;
         String title, desc, location, type;
         Calendar startDate = Calendar.getInstance();
         Calendar endDate = Calendar.getInstance();
@@ -105,6 +111,13 @@ public class AppointmentController implements LoadObject {
             errors.append("You must select a Contact\n");
         }
 
+        try {
+            userID = appUserCombo.getSelectionModel().getSelectedItem().getId();
+        } catch (NullPointerException e) {
+            errors.append("You must select a User\n");
+        }
+
+
         title = appTitleTxt.getText().trim();
         if (title.length() < 1) {
             errors.append("Title must have a value.\n");
@@ -120,7 +133,7 @@ public class AppointmentController implements LoadObject {
             errors.append("Location must have a value.\n");
         }
 
-        type = appDescTxt.getText().trim();
+        type = appTypeTxt.getText().trim();
         if (type.length() < 1) {
             errors.append("Type must have a value.\n");
         }
@@ -150,7 +163,7 @@ public class AppointmentController implements LoadObject {
         Appointment appointment = new Appointment(
                 appID,
                 custID,
-                1,
+                userID,
                 contactID,
                 title,
                 desc,
@@ -236,6 +249,21 @@ public class AppointmentController implements LoadObject {
         appContactCombo.setCellFactory(contactFactory);
         appContactCombo.setButtonCell(contactFactory.call(null));
 
+        // Add User Selection
+        Callback<ListView<User>, ListCell<User>> userFactory = lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(User user, boolean b) {
+                super.updateItem(user, b);
+                setText(b ? "" : user.getName());
+            }
+        };
+
+        UserDao userDao = new UserDao();
+        appUserCombo.setPromptText("Choose User");
+        appUserCombo.setItems(userDao.getAll());
+        appUserCombo.setCellFactory(userFactory);
+        appUserCombo.setButtonCell(userFactory.call(null));
+
         // Deal With DateTime for Form
         Calendar localTimeZone = Calendar.getInstance();
 
@@ -284,25 +312,27 @@ public class AppointmentController implements LoadObject {
             }
         }
 
+        for (User user : appUserCombo.getItems()){
+            if (user.getId() == appointment.getUserID()){
+                appUserCombo.getSelectionModel().select(user);
+            }
+        }
+
         appTitleTxt.setText(appointment.getTitle());
         appDescTxt.setText(appointment.getDescription());
         appLocationTxt.setText(appointment.getLocation());
         appTypeTxt.setText(appointment.getType());
 
-//        LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
         LocalDateTime localStartTime = LocalDateTime.ofInstant(appointment.getStart().toInstant(),appointment.getStart().getTimeZone().toZoneId());
         LocalDateTime localStopTime = LocalDateTime.ofInstant(appointment.getEnd().toInstant(),appointment.getEnd().getTimeZone().toZoneId());
 
         appStartDate.setValue(LocalDate.from(localStartTime));
-        appStartHourCombo.getSelectionModel().select(localStartTime.getHour());
-        appStartMinCombo.getSelectionModel().select(localStartTime.getMinute());
+        appStartHourCombo.getSelectionModel().select((Integer) localStartTime.getHour());
+        appStartMinCombo.getSelectionModel().select((Integer) localStartTime.getMinute());
 
         appStopDate.setValue(LocalDate.from(localStopTime));
-        appEndHourCombo.getSelectionModel().select(localStopTime.getHour());
-        appEndMinCombo.getSelectionModel().select(localStopTime.getMinute());
-
-
-
+        appEndHourCombo.getSelectionModel().select((Integer) localStopTime.getHour());
+        appEndMinCombo.getSelectionModel().select((Integer) localStopTime.getMinute());
     }
 
     /** Checks if appointment conflicts with other appointments with the same customerID.

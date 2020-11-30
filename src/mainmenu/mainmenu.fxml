@@ -99,7 +99,7 @@
             </HBox>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button mnemonicParsing="false" onAction="#onActionOpenReports" text="Reports" />
+                <Button mnemonicParsing="false" onAction="#onActionOpenReports" prefHeight="35.0" text="Reports" />
               </buttons>
                <VBox.margin>
                   <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
